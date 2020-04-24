@@ -1,0 +1,10 @@
+./proto_file_auditor.py
+./ ❤ 💓 ❤ 💓 ❤ 💓 💔 copy.txt
+./♡ ♥ ❤ 💓 💔.txt
+./testwritetext.txt
+./.DS_Store
+./proto_file_auditor.TEMP.json
+./proto_file_auditor.TEMP.txt
+./proto_file_auditor.TEMP.pickle
+./proto_file_auditor.TEMP.filenames.txt
+./proto_file_auditor.TEMP.interlaced.txt

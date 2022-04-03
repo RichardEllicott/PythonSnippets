@@ -44,3 +44,11 @@ def load_csv_table(filename):
                     ret.append(record)
             n += 1
     return ret
+
+
+
+## added 03/03/2022
+def load_csv(filename):
+    with open(filename) as f:
+        reader = csv.reader(f)
+        return list(reader)

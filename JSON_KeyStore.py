@@ -1,10 +1,22 @@
 """
-simple JSON keyed database
 
-now behaves like a dictionary (sort of)
+simple KeyStore, written 2022-12-29
 
-more expensive than a database as it has to read/write entire file, usually every time a key is changed (unless autocommit is False)
+loads entire file from json as a dictionary
 
+more expensive than a DB as it writes an entire file, but more conviniant
+
+
+
+# load from this lib:
+from JSON_KeyStore import KeyStore
+key_store = KeyStore('somefile.json', autocommit=True) # will load file is present
+
+# use as normal dict:
+json_dict['orange'] = 6
+json_dict.update({'rose': 'a string', 'stuff': [1,2,3,4]})
+
+# will save file on object delete, or after each instruction (if autocommit)
 
 """
 import os
@@ -70,25 +82,28 @@ class KeyStore(dict):
         self.commit()
 
     def __setitem__(self, key, value):
-        """override __setitem__ adds our _on_edit trigger
+        """setting an item triggers _on_edit
         """
         super(KeyStore, self).__setitem__(key, value)
         self._on_edit()
 
     def update(self, _dict):
         """
-        when we use update must cause trigger
+        update triggers _on_edit
 
         issue when using *args, so can only add one dict at a time... i think workaround is here:
         https://stackoverflow.com/questions/2060972/subclassing-python-dictionary-to-override-setitem
 
-        but decided to restrict to one par
+        but decided to restrict to one par for update (it's rare anyone would use more than one)
 
         """
         super(KeyStore, self).update(_dict)
         self._on_edit()
 
     def clear(self):
+        """
+        trigger write if clearing all items
+        """
         super(KeyStore, self).clear()
         self._on_edit()
 
@@ -111,22 +126,22 @@ def test():
 
     print(json_dict)
 
+    json_dict.clear()
 
-    # json_dict.clear()
+    print(json_dict)
 
-    # json_dict['apple'] = 4
-    # json_dict['pear'] = 2
+    json_dict['apple'] = 4
+    json_dict['pear'] = 2
     json_dict['orange'] = 6
 
-    # json_dict.update({'rose': 'a string', 'stuff': [1,2,3,4]})
+
+    print(json_dict)
+
+    json_dict.update({'rose': 'a string', 'stuff': [1, 2, 3, 4]})
 
     print(json_dict)
 
 
 if __name__ == "__main__":
     print("run unit tests...")
-
     test()
-
-
-print("FIN!!!")
